@@ -46,31 +46,31 @@ void M3liusRTC::refresh() {
 }
 
 
-uint8_t M3liusRTC::second() {
+byte M3liusRTC::second() {
 	return _second;
 }
 
-uint8_t M3liusRTC::minute() {
+byte M3liusRTC::minute() {
 	return _minute;
 }
 
-uint8_t M3liusRTC::hour() {
+byte M3liusRTC::hour() {
 	return _hour;
 }
 
-uint8_t M3liusRTC::day() {
+byte M3liusRTC::day() {
 	return _day;
 }
 
-uint8_t M3liusRTC::month() {
+byte M3liusRTC::month() {
 	return _month;
 }
 
-uint8_t M3liusRTC::year() {
+byte M3liusRTC::year() {
 	return _year;
 }
 
-uint8_t M3liusRTC::dayOfWeek() {
+byte M3liusRTC::dayOfWeek() {
 	return _dayOfWeek;
 }
 
@@ -80,7 +80,7 @@ void M3liusRTC::set_rtc_address(int addr) {
 
 
 #ifdef URTCLIB_SET
-	void M3liusRTC::set(const uint8_t second, const uint8_t minute, const uint8_t hour, const uint8_t dayOfWeek, const uint8_t dayOfMonth, const uint8_t month, const uint8_t year) {
+	void M3liusRTC::set(byte second, byte minute, byte hour, byte dayOfWeek, byte dayOfMonth, byte month, byte year) {
 		#ifdef _VARIANT_ARDUINO_STM32_
 			URTCLIB_INIT_WIRE();
 		#endif
