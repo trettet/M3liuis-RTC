@@ -1,21 +1,18 @@
 /**
- * DS1307 and DS3231 RTCs with AT24C32 (and compatible) integrated EEPROM basic library
- *
- * Really tiny library to basic RTC and EEPROM (incorporated) functionality on Arduino.
- *
- * DS1307 and DS3231 RTCs are supported AT24C32 EEPROM supported (and compatibles)
+ * RTC Library for DS1307 and DS3231 based from uRTCLib by Naguissa
  *
  *
- * @copyright Naguissa
- * @author Naguissa
- * @email naguissa.com@gmail.com
- * @version 1.0
+ * @copyright trettet
+ * @author trettet
+ * @email trettet@gmail.com
+ * @version 0.1 alpha
  * @created 2015-05-07
+ * @forked 2017-08-24
  */
 #include <Arduino.h>
-#include "uRTCLib.h"
+#include "M3liusRTC.h"
 
-uRTCLib::uRTCLib() {
+M3liusRTC::M3liusRTC() {
 	#ifndef _VARIANT_ARDUINO_STM32_
 	  Wire.begin();
 	#endif
@@ -23,7 +20,7 @@ uRTCLib::uRTCLib() {
 }
 
 
-void uRTCLib::refresh() {
+void M3liusRTC::refresh() {
 	#ifdef _VARIANT_ARDUINO_STM32_
 		URTCLIB_INIT_WIRE();
 	#endif
@@ -49,41 +46,41 @@ void uRTCLib::refresh() {
 }
 
 
-uint8_t uRTCLib::second() {
+uint8_t M3liusRTC::second() {
 	return _second;
 }
 
-uint8_t uRTCLib::minute() {
+uint8_t M3liusRTC::minute() {
 	return _minute;
 }
 
-uint8_t uRTCLib::hour() {
+uint8_t M3liusRTC::hour() {
 	return _hour;
 }
 
-uint8_t uRTCLib::day() {
+uint8_t M3liusRTC::day() {
 	return _day;
 }
 
-uint8_t uRTCLib::month() {
+uint8_t M3liusRTC::month() {
 	return _month;
 }
 
-uint8_t uRTCLib::year() {
+uint8_t M3liusRTC::year() {
 	return _year;
 }
 
-uint8_t uRTCLib::dayOfWeek() {
+uint8_t M3liusRTC::dayOfWeek() {
 	return _dayOfWeek;
 }
 
-void uRTCLib::set_rtc_address(int addr) {
+void M3liusRTC::set_rtc_address(int addr) {
 	_rtc_address = addr;
 }
 
 
 #ifdef URTCLIB_SET
-	void uRTCLib::set(const uint8_t second, const uint8_t minute, const uint8_t hour, const uint8_t dayOfWeek, const uint8_t dayOfMonth, const uint8_t month, const uint8_t year) {
+	void M3liusRTC::set(const uint8_t second, const uint8_t minute, const uint8_t hour, const uint8_t dayOfWeek, const uint8_t dayOfMonth, const uint8_t month, const uint8_t year) {
 		#ifdef _VARIANT_ARDUINO_STM32_
 			URTCLIB_INIT_WIRE();
 		#endif
@@ -102,11 +99,11 @@ void uRTCLib::set_rtc_address(int addr) {
 
 
 #ifdef URTCLIB_EEPROM
-	void uRTCLib::set_ee_address(int addr) {
+	void M3liusRTC::set_ee_address(int addr) {
 		_ee_address = addr;
 	}
 
-	unsigned char uRTCLib::eeprom_read(const unsigned int address) {
+	unsigned char M3liusRTC::eeprom_read(const unsigned int address) {
 		unsigned int rdata = 0xFF;
 		#ifdef _VARIANT_ARDUINO_STM32_
 			URTCLIB_INIT_WIRE();
@@ -122,7 +119,7 @@ void uRTCLib::set_rtc_address(int addr) {
 		return rdata;
 	}
 
-	void uRTCLib::eeprom_write(const unsigned int address, const unsigned char data) {
+	void M3liusRTC::eeprom_write(const unsigned int address, const unsigned char data) {
 		#ifdef _VARIANT_ARDUINO_STM32_
 			URTCLIB_INIT_WIRE();
 		#endif
@@ -134,4 +131,14 @@ void uRTCLib::set_rtc_address(int addr) {
 		Wire.endTransmission();
 	}
 #endif
+
+// Private Utility Functions
+byte M3liusRTC::decToBcd(byte val) {
+	return ( (val/10*16) + (val%10) );
+}
+
+byte M3liusRTC::bcdToDec(byte val) {
+	return ( (val/16*10) + (val%16) );
+}
+
 
